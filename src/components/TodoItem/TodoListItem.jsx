@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ACTIONS } from "../TodoList/TodoList";
 import styled from "styled-components";
+import { TodoContext } from "../../store/TodoContext";
 
 
-const  TodoListItem=({ todo, dispatch, editTodoHandler })=> {
+const  TodoListItem=({ todo})=> {
+ const {dispatch, editTodoHandler} = useContext(TodoContext) 
   return (
     <Container>
       {todo.complete ? (

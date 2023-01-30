@@ -1,71 +1,19 @@
-import React, { useReducer } from "react";
-import { useState } from "react";
+import React, { useContext } from "react";
 import TodoListItem from "../TodoItem/TodoListItem";
 import styled from "styled-components";
+import { TodoContext } from "../../store/TodoContext";
 export const ACTIONS = {
   ADD_TODO: "add_todo",
   COMPLETE_TODO: "complete_todo",
   DELETE_TODO: "delete_todo",
 };
 
-function reducer(todos, action) {
-  switch (action.type) {
-    case ACTIONS.ADD_TODO:
-      return [...todos, newTodo(action.payload.name)];
-
-    case ACTIONS.COMPLETE_TODO:
-      return todos.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return { ...todo, complete: !todo.complete };
-        }
-        return todo;
-      });
-    case ACTIONS.DELETE_TODO:
-      return todos.filter((todo) => todo.id !== action.payload.id);
-
-    default:
-      return todos;
-  }
-}
-const newTodo = (name) => {
-  return {
-    id: Math.random() + new Date().getMilliseconds().toString(),
-    name: name,
-    complete: false,
-  };
-};
 const TodoList = () => {
-  const [todos, dispatch] = useReducer(reducer, [
-    {
-      id: Math.random() + new Date().getMilliseconds().toString(),
-      name: "Nika",
-      complete: false,
-    },
-    {
-      id: Math.random() + new Date().getMilliseconds().toString(),
-      name: "Kurmanzhan",
-      complete: false,
-    },
-    {
-      id: Math.random() + new Date().getMilliseconds().toString(),
-      name: "Aibek",
-      complete: false,
-    },
-  ]);
-  const [title, setTitle] = useState("");
+  const {dispatch, todos , title, setTitle , addTodoHandler, editTodoHandler} = useContext(TodoContext)
+  
   const enebled = title.length > 0;
 
-  const addTodoHandler = (e) => {
-    e.preventDefault();
-    dispatch({ type: ACTIONS.ADD_TODO, payload: { name: title } });
-    todos.filter((item) => item.id === todos.id);
-    setTitle("");
-  };
-
-  const editTodoHandler = (name, id) => {
-    setTitle(name);
-    dispatch({ type: ACTIONS.DELETE_TODO, payload: { id: id } });
-  };
+  
   return (
     <>
       <Container>
